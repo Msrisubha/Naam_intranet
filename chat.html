@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="home_logo.jpeg">
+
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f5f5;
+}
+
+/* HEADER */
+.header {
+    background:  #0056b3;
+    color: white;
+    padding: 2PX;
+    text-align: center;
+}
+
+
+/* FORM */
+.container {
+    max-width: 500px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+input, select, textarea {
+    width: 100%;
+    margin: 8px 0;
+    padding: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #0056b3;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.suggestions-box {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    background: white;
+}
+
+.suggestions-box div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions-box div:hover {
+    background: #f0f0f0;
+}
+.footer {
+    background: #1A428A;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>NAAM HOSPITALS PRIVATE LIMITED - CHAT BOX</h2>
+</div>
+<div class="container">
+
+    <!-- FROM (AUTO) -->
+    <label>From</label>
+    <input type="text" id="fromUser" readonly>
+
+    <!-- DEPARTMENT -->
+    <label>Department</label>
+    <select id="department" onchange="loadUsers()">
+        <option value="">Select Department</option>
+        <option value="">Select Department</option>
+<option value="ADMINISTRATION">ADMINISTRATION</option>
+<option value="OPERATION">OPERATION</option>
+
+<option value="BIOMEDICAL_ENGINEERING">BIOMEDICAL_ENGINEERING</option>
+<option value="BLOOD_BANK">BLOOD_BANK</option>
+<option value="CASUALTY/EMERGENCY">CASUALTY/EMERGENCY</option>
+<option value="CATH_LAB">CATH_LAB</option>
+<option value="CCTV_CONTROL_ROOM">CCTV_CONTROL_ROOM</option>
+<option value="CENTRAL_STORE">CENTRAL_STORE</option>
+<option value="CSSD(STERILE_SERVICES)">CSSD(STERILE_SERVICES)</option>
+<option value="DIALYSIS_UNIT">DIALYSIS_UNIT</option>
+<option value="ENDOSCOPY_UNIT">ENDOSCOPY_UNIT</option>
+<option value="FINANCE_&_ACCOUNTS">FINANCE_&_ACCOUNTS</option>
+<option value="FRONT_OFFICE_/REGISTRATION">FRONT_OFFICE_/REGISTRATION</option>
+<option value="GENERAL_WARDS">GENERAL_WARDS</option>
+<option value="HOUSEKEEPING">HOUSEKEEPING</option>
+<option value="HUMAN_RESOURCES">HUMAN_RESOURCES</option>
+<option value="INSURENCE">INSURENCE</option>
+<option value="IP_BILLING">IP_BILLING</option>
+<option value="IT_DEPARTMENT">IT_DEPARTMENT</option>
+<option value="KITCHEN/DIETARY">KITCHEN/DIETARY</option>
+<option value="LABORATORY-PROCESSING">LABORATORY-PROCESSING</option>
+<option value="LABORATORY-SAMPLE_COLLECTION">LABORATORY-SAMPLE_COLLECTION</option>
+<option value="LAUNDARY">LAUNDARY</option>
+<option value="MAINTENANCE/FACILITIES">MAINTENANCE/FACILITIES</option>
+<option value="MAMMOGRAPHY">MAMMOGRAPHY</option>
+<option value="MEDICAL_GAS_MANIFOLD_ROOM">MEDICAL_GAS_MANIFOLD_ROOM</option>
+<option value="MRI_ROOM">MRI_ROOM</option>
+<option value="NEONTAL_ICU(NICU)">NEONTAL_ICU(NICU)</option>
+<option value="NURSING_STATION">NURSING_STATION</option>
+<option value="OPD_CONSULTATION_ROOMS">OPD_CONSULTATION_ROOMS</option>
+<option value="OPERATION_THEATRE_(OT)">OPERATION_THEATRE_(OT)</option>
+<option value="PHARMACHY-IP">PHARMACHY-IP</option>
+<option value="PHARMACHY-OP">PHARMACHY-OP</option>
+<option value="UALITY_&_NABH">UALITY_&_NABH</option>
+<option value="RADIOLOGY">RADIOLOGY</option>
+<option value="SECURITY">SECURITY</option>
+<option value="ULTRASOUND_ROOM">ULTRASOUND_ROOM</option>
+    </select>
+
+    <!-- PERSON -->
+    <label>To (Person)</label>
+    <select id="userList">
+        <option>Select Person</option>
+    </select>
+
+    <!-- SUBJECT -->
+    <label>Subject</label>
+    <input type="text" id="subject">
+
+    <!-- MESSAGE -->
+    <label>Message</label>
+    <textarea id="message"></textarea>
+
+    <!-- FILE -->
+    <label>Upload File</label>
+    <input type="file" id="file">
+
+    <!-- SEND -->
+    <button onclick="sendMessage()">Send</button>
+
+</div>
+
+<script>
+
+/* ✅ AUTO FILL FROM USER (from login) */
+const loggedUser = localStorage.getItem("username") || "Employee";
+document.getElementById("fromUser").value = loggedUser;
+
+/* ✅ USERS BY DEPARTMENT */
+const users = {
+  OPERATION:["Sachin Kumar.R"],
+  BIOMEDICAL_ENGINEERING: ["Shanmugam.S"],
+  BLOOD_BANK: [""],
+  CASUALTY_EMERGENCY: ["velmurgan.A"],
+  CATH_LAB: ["Sarvanan.A"],
+  CCTV_CONTROL_ROOM: ["Arulmani.K"],
+  CENTRAL_STORE: ["Kanan.K"],
+  CSSD_STERILE_SERVICES: ["vijayarani.k"],
+  DIALYSIS_UNIT: ["Sacho.P"],
+  ENDOSCOPY_UNIT: [""],
+  FINANCE_ACCOUNTS: ["Venkatesan.K"],
+  FRONT_OFFICE_REGISTRATION: ["Jayapragathi.J"],
+  GENERAL_WARDS: ["Kalaiarasi.S"],
+  HOUSEKEEPING: ["Kannammal.C"],
+  HUMAN_RESOURCES: ["umadinesh.S"],
+  INSURENCE: ["Dr.Surya Haraimaheswar.K"],
+  IP_BILLING: ["Kannammal.C"],
+  IT_DEPARTMENT: ["Arulmani.K"],
+  KITCHEN_DIETARY: ["Monika.S"],
+  LABORATORY_PROCESSING: ["Balamurugan.T"],
+  LABORATORY_SAMPLE_COLLECTION: ["Balamurugan.T"],
+  LAUNDARY: ["Kannammal.C"],
+  MAINTENANCE_FACILITIES: ["Maniyarasu.M"],
+  MAMMOGRAPHY: [""],
+  MEDICAL_GAS_MANIFOLD_ROOM: ["Vinushankar.M"],
+  MRI_ROOM: [""],
+  NEONTAL_ICU_NICU: [""],
+  NURSING_STATION: ["Kalairasi.S"],
+  OPD_CONSULTATION_ROOMS: ["Ruby.L"],
+  OPERATION_THEATRE_OT: ["Vijayarani.K"],
+  PHARMACHY_IP: ["Mohan.A"],
+  PHARMACHY_OP: ["Mohan.A"],
+  UALITY_NABH: [""],
+  RADIOLOGY: ["Ragul.S"],
+  SECURITY: ["Sarvanan.R"],
+  ULTRASOUND_ROOM: ["Saroja.G"],
+};
+
+function loadUsers() {
+    const dept = document.getElementById("department").value;
+    const userList = document.getElementById("userList");
+
+    userList.innerHTML = "<option>Select Person</option>";
+
+    if (users[dept]) {
+        users[dept].forEach(u => {
+            let option = document.createElement("option");
+            option.text = u;
+            userList.add(option);
+        });
+    }
+}
+
+/* ✅ SEND FUNCTION */
+function sendMessage() {
+    const to = document.getElementById("userList").value;
+    const subject = document.getElementById("subject").value;
+
+    if (to === "" || subject === "") {
+        alert("Fill all details");
+        return;
+    }
+
+    alert("Message Sent Successfully!");
+}
+
+</script>
+<div class="footer">
+   © 2026 NAAM Hospitals Pvt Ltd | All Rights Reserved
+</div>
+</body>
+</html>

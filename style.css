@@ -1,0 +1,274 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+
+/* Header Elements */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;        /* ✅ fixed height */
+    padding: 0 10px;
+    background: #1A428A;
+    
+}
+
+.hospital-logo {
+    height: 40px;
+    width: 40px;
+    
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hospital-name {
+    font-size: 30px;
+    font-weight: 400px;
+    margin: 0;
+    line-height: 1;
+    color: white;
+
+}
+
+.logo-container img {
+    vertical-align: middle;
+}
+.user-btn {
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+/* Sub-Nav & Menu Button */
+.sub-nav {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background: #0056b3;
+}
+.menu-btn {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 3px 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.hamburger span { width: 18px; height: 2px; background: white; display: block; margin: 3px 0; }
+
+.portal-title { flex-grow: 1;
+     text-align: center;
+      font-size: 1.1rem; 
+}
+
+/* Vertical Scrolling Notice Section */
+.notice-board {
+    height: 400px; /* Adjust height as needed */
+    overflow: hidden;
+    background: #eee;
+    margin: 20px;
+    border: 2px solid #ccc;
+    position: relative;
+}
+
+.scroll-container {
+    display: flex;
+    flex-direction: column;
+    animation: scrollUp 15s linear infinite;
+}
+
+.scroll-container:hover {
+    animation-play-state: paused; /* Stops scrolling when user hovers */
+}
+.notice-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
+    margin: 10px;
+}
+h1, h2, h3 {
+    margin: 0;
+}
+.notice-card {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 12px;   /* ✅ GAP BETWEEN CARDS */
+    border-radius: 8px;
+    border-left: 5px solid #0056b3;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.notice-card h3 {
+    margin-bottom: 8px;
+    color: #0056b3;
+}
+
+.notice-card p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.price {
+    margin-top: 10px;
+    font-weight: bold;
+    color: green;
+    font-size: 16px;
+}
+@keyframes scrollUp {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); } /* Halfway because of duplicated content */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    height: 100%;
+    width: 0;
+    max-width: 200px;  /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: #e7f1fb;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    font-size: larger;
+     border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+}
+
+.menu-item {
+    padding: 15px 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar a, .dropdown-btn {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color:rgb(0, 0, 0);
+    display: block;
+    transition: 0.3s;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.sidebar a:hover, .dropdown-btn:hover {
+    color: #010101;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Dropdown for Company Links */
+.dropdown-container {
+    display: none;
+    background-color: #f9f9f9;
+    padding-left: 20px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-container a {
+    font-size: 1rem;
+    padding: 10px 0;
+}
+
+/* Arrow indicator */
+.arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    float: right;
+    margin-top: 8px;
+}
+.down { transform: rotate(45deg); }
+
+.footer {
+    background: #1A428A;
+    color: white;
+    text-align: center;
+    padding: 10px;
+       /* stays at bottom */
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+}
+.content {
+    flex: 1;   /* ✅ fills remaining space */
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    width: 250px;   /* ✅ small box */
+    margin: 100px auto;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.modal-content input {
+    width: 100%;
+    margin: 5px 0;
+    padding: 6px;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 6px;
+    background: #0056b3;
+    color: white;
+    border: none;
+}
+.profile-box {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    background: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 200px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.profile-box button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 5px;
+}
+.profile-box {
+    display: none;
+    transition: all 0.3s ease;
+}

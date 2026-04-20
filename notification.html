@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications</title>
+<link rel="icon" type="image/png" sizes="32x32" href="home_logo.jpeg">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #e5ddd5;
+}
+
+/* HEADER */
+.header {
+    background: #0056b3;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+/* CHAT AREA */
+.chat-container {
+    padding: 10px;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+}
+
+/* MESSAGE BOX */
+.message {
+    max-width: 75%;
+    padding: 10px;
+    margin: 8px;
+    border-radius: 8px;
+    position: relative;
+    font-size: 14px;
+}
+
+/* LEFT (DEPARTMENT) */
+.message.left {
+    background: white;
+}
+
+/* RIGHT (YOU - OPTIONAL) */
+.message.right {
+    background: #dcf8c6;
+    margin-left: auto;
+}
+
+/* NAME */
+.sender {
+    font-weight: bold;
+    font-size: 13px;
+    color: #075e54;
+}
+
+/* TIME */
+.time {
+    font-size: 10px;
+    color: gray;
+    text-align: right;
+    margin-top: 5px;
+}
+.footer {
+    background: #0056b3;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+</style>
+</head>
+
+<body>
+<div class="header">
+    <h2>NAAM HOSPITALS PRIVATE LIMITED - NOTIFICATIONS</h2>
+</div>
+
+<div class="chat-container" id="chatBox"></div>
+
+<script>
+
+// ✅ DAILY NOTIFICATIONS (EDIT HERE ONLY)
+let notifications = [
+    { dept: "HR", msg: "Meeting at 3:00 PM", time: "09:00 AM" },
+    { dept: "IT", msg: "Update your system today", time: "10:30 AM" },
+    { dept: "ADMIN", msg: "Submit reports before 5 PM", time: "11:00 AM" },
+    { dept: "HR", msg: "Attendance mandatory", time: "01:00 PM" }
+];
+
+// LOAD MESSAGES
+const chatBox = document.getElementById("chatBox");
+
+notifications.forEach(n => {
+    chatBox.innerHTML += `
+        <div class="message left">
+            <div class="sender">${n.dept}</div>
+            <div>${n.msg}</div>
+            <div class="time">${n.time}</div>
+        </div>
+    `;
+});
+
+// AUTO SCROLL DOWN
+chatBox.scrollTop = chatBox.scrollHeight;
+
+
+</script>
+<div class="footer">
+   © 2026 NAAM Hospitals Pvt Ltd | All Rights Reserved
+</div>
+</body>
+</html>

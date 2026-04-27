@@ -53,31 +53,24 @@ function openLogin() {
     document.getElementById("loginModal").style.display = "block";
 }
 function login() {
-    const id = document.querySelector(".modal input[type='text']").value;
-    const pass = document.querySelector(".modal input[type='password']").value;
+    const empId = document.getElementById("empId").value;
+    const pass = document.getElementById("password").value;
 
-    if (id === "" || pass === "") {
+    if (empId === "" || pass === "") {
         alert("Enter ID & Password");
         return;
     }
 
-    const name = "Employee " + id;
     const time = new Date().toLocaleString();
 
-    document.getElementById("empName").innerText = name;
-    document.getElementById("loginTime").innerText = time;
+    // ✅ Save to localStorage
+    localStorage.setItem("username", empId);
+    localStorage.setItem("loginTime", time);
 
-    // ✅ Show menu
-    document.getElementById("menuBtn").style.display = "flex";
+    // ✅ Update UI
+    showUser();
 
-    // ✅ Replace LOGIN with PROFILE only
-    document.getElementById("userSection").innerHTML = `
-        <button class="user-btn" onclick="toggleProfile()">PROFILE</button>
-    `;
-
-    // ✅ Hide profile initially
-    document.getElementById("profileBox").style.display = "none";
-
+    // ✅ Close modal
     document.getElementById("loginModal").style.display = "none";
 }
 
@@ -86,7 +79,8 @@ function toggleProfile() {
     box.style.display = box.style.display === "none" ? "block" : "none";
 }
 function logout() {
-    location.reload(); // simple reset
+    localStorage.clear();
+    location.reload();
 }
 function changePassword() {
     const newPass = prompt("Enter New Password:");
@@ -137,4 +131,22 @@ document.getElementById("slider").addEventListener("click", function () {
 });
 
 startSlider();
-localStorage.setItem("username", name);
+
+
+function showUser() {
+    const user = localStorage.getItem("username");
+
+    if (user) {
+        document.getElementById("userSection").innerHTML =
+            `<button class="user-btn" onclick="toggleProfile()">👤 ${user}</button>`;
+
+        document.getElementById("menuBtn").style.display = "flex";
+
+        document.getElementById("empName").innerText = user;
+        document.getElementById("loginTime").innerText =
+            localStorage.getItem("loginTime");
+    }
+}
+window.onload = function () {
+    showUser();
+};
